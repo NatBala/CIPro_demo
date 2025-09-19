@@ -1225,22 +1225,19 @@ Return ONLY valid JSON:
                 }
             });
 
-            // Then check for other firm patterns
+            // Then check for other firm patterns - but only for exact matches or clear mentions
             KNOWN_FIRMS.forEach(firm => {
                 const firmLower = firm.toLowerCase();
-                const firmWords = firmLower.split(' ');
 
-                if (lowerText.includes(firmLower) ||
-                    firmWords.some(word => lowerText.includes(word) && word.length > 3)) {
+                // Only match full firm names or very specific words
+                if (lowerText.includes(firmLower)) {
                     firms.push(firm);
                 }
             });
 
-            // Remove duplicates and if no specific firm mentioned, target all firms
+            // Remove duplicates - but DON'T add all firms if none mentioned
             const uniqueFirms = [...new Set(firms)];
-            if (uniqueFirms.length === 0) {
-                uniqueFirms.push(...KNOWN_FIRMS);
-            }
+            console.log('🏢 Detected firms:', uniqueFirms.length > 0 ? uniqueFirms : 'None specifically mentioned');
 
             // Detect tickers
             const tickers = [];
@@ -1296,8 +1293,11 @@ Return ONLY valid JSON:
             }
         }
 
-        function findMatchingAdvisors(firms) {
-            if (!firms.length) return state.advisors;
+        function findMatchingAdvisors(firms, isGeneralContent = false) {
+            // If this is general content (practice management, benchmarks, etc.) that applies to all advisors
+            if (isGeneralContent || (!firms.length)) {
+                return state.advisors; // Return all advisors for general content
+            }
             return state.advisors.filter(advisor =>
                 firms.some(firm => advisor.firm.toLowerCase() === firm.toLowerCase())
             );
@@ -1459,7 +1459,15 @@ Return ONLY valid JSON:
                 const parsed = await parsePrompt(text);
                 console.log('📊 Parsed result:', parsed);
 
-                const advisors = findMatchingAdvisors(parsed.firms);
+                // Determine if this is general content (practice management, benchmarks)
+                const isGeneralContent = parsed.articles.some(article => {
+                    const title = (article.title || '').toLowerCase();
+                    const summary = (article.summary || '').toLowerCase();
+                    return title.includes('practice') || title.includes('benchmark') ||
+                           title.includes('advisor') || summary.includes('practice management');
+                });
+
+                const advisors = findMatchingAdvisors(parsed.firms, isGeneralContent);
                 const articles = findMatchingArticles(parsed);
 
                 // Update localStorage for real-time dashboard updates
