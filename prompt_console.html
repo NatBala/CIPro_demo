@@ -894,6 +894,184 @@
             }
         }
 
+        // Content theme detection system - balanced scoring for all content types
+        const CONTENT_THEMES = {
+            PRACTICE_MANAGEMENT: {
+                keywords: ['benchmark', 'practice', 'management', 'growth', 'advisor', 'productivity', 'client acquisition', 'business growth', 'efficiency', 'operations', 'workflow', 'retention'],
+                priority: 10,
+                name: 'Practice Management'
+            },
+            PRODUCT_SPECIFIC: {
+                keywords: ['etf', 'fund', 'ticker', 'investment', 'product', 'launch', 'performance', 'expense ratio', 'yield', 'returns'],
+                priority: 10,
+                name: 'Product Specific'
+            },
+            INVESTMENT_STRATEGY: {
+                keywords: ['strategy', 'allocation', 'portfolio', 'asset', 'diversification', 'risk management', 'rebalancing'],
+                priority: 10,
+                name: 'Investment Strategy'
+            },
+            CLIENT_EXPERIENCE: {
+                keywords: ['client', 'experience', 'satisfaction', 'onboarding', 'communication', 'relationship'],
+                priority: 8,
+                name: 'Client Experience'
+            },
+            TECHNOLOGY: {
+                keywords: ['technology', 'digital', 'automation', 'fintech', 'platform', 'tools', 'software'],
+                priority: 8,
+                name: 'Technology'
+            },
+            MARKET_INSIGHTS: {
+                keywords: ['market', 'outlook', 'trends', 'economic', 'analysis', 'forecast'],
+                priority: 8,
+                name: 'Market Insights'
+            }
+        };
+
+        // Intelligent article scoring - context-aware for both products and practice management
+        function scoreArticleRelevance(article, userText, firmMatches = [], tickerMatches = []) {
+            let score = 0;
+            const userLower = userText.toLowerCase();
+            const articleTitle = (article.title || '').toLowerCase();
+            const articleSummary = (article.summary || '').toLowerCase();
+            const articleTags = article.tags || [];
+
+            console.log(`📊 Scoring article: "${article.title}"`);
+
+            // 1. CONTENT THEME SCORING - Equal priority for all themes based on relevance
+            let themeScore = 0;
+            let matchedThemes = [];
+
+            Object.entries(CONTENT_THEMES).forEach(([themeKey, theme]) => {
+                const userMatches = theme.keywords.filter(keyword => userLower.includes(keyword.toLowerCase()));
+                const articleMatches = theme.keywords.filter(keyword =>
+                    articleTitle.includes(keyword.toLowerCase()) ||
+                    articleSummary.includes(keyword.toLowerCase())
+                );
+
+                if (userMatches.length > 0 && articleMatches.length > 0) {
+                    const currentThemeScore = theme.priority * Math.min(userMatches.length, articleMatches.length);
+                    themeScore += currentThemeScore;
+                    matchedThemes.push(`${theme.name} (+${currentThemeScore})`);
+                }
+            });
+
+            score += themeScore;
+            if (matchedThemes.length > 0) {
+                console.log(`  🎯 Theme matches: ${matchedThemes.join(', ')}`);
+            }
+
+            // 2. EXACT MATCH BOOST - When user query exactly matches article content
+            const userWords = userLower.split(/\s+/).filter(word => word.length > 3);
+            let exactMatchBoost = 0;
+
+            // Check for phrase matches first (higher priority)
+            const userPhrases = [
+                userLower, // Full query
+                ...userLower.split(/\s+/).slice(0, -1).map((_, i) =>
+                    userLower.split(/\s+/).slice(i, i + 2).join(' ')
+                ).filter(phrase => phrase.split(' ').length === 2) // 2-word phrases
+            ];
+
+            userPhrases.forEach(phrase => {
+                if (phrase.length > 6) { // Only meaningful phrases
+                    if (articleTitle.includes(phrase)) {
+                        exactMatchBoost += 15;
+                        console.log(`  🎯 Phrase match in title: "${phrase}" (+15)`);
+                    }
+                    if (articleSummary.includes(phrase)) {
+                        exactMatchBoost += 10;
+                        console.log(`  🎯 Phrase match in summary: "${phrase}" (+10)`);
+                    }
+                }
+            });
+
+            // Individual word matches
+            userWords.forEach(word => {
+                if (articleTitle.includes(word)) exactMatchBoost += 5;
+                if (articleSummary.includes(word)) exactMatchBoost += 3;
+                if (articleTags.some(tag => String(tag).toLowerCase().includes(word))) exactMatchBoost += 2;
+            });
+
+            score += exactMatchBoost;
+            if (exactMatchBoost > 0) {
+                console.log(`  🎯 Total exact matches: +${exactMatchBoost}`);
+            }
+
+            // 3. FIRM MATCHING
+            if (firmMatches.length > 0) {
+                const firmBoost = 15 * firmMatches.length;
+                score += firmBoost;
+                console.log(`  🏢 Firm matches: ${firmMatches.join(', ')} (+${firmBoost})`);
+            }
+
+            // 4. TICKER/PRODUCT MATCHING
+            if (tickerMatches.length > 0) {
+                const tickerBoost = 15 * tickerMatches.length;
+                score += tickerBoost;
+                console.log(`  📈 Ticker matches: ${tickerMatches.join(', ')} (+${tickerBoost})`);
+            }
+
+            // 5. CONTEXT-AWARE SCORING - Boost articles that match the query's intent
+            let contextBoost = 0;
+
+            // If asking about benchmarks/measurement, prioritize benchmark content
+            if (userLower.includes('benchmark')) {
+                if (articleTitle.includes('benchmark') || articleSummary.includes('benchmark')) {
+                    contextBoost += 25;
+                    console.log(`  📊 Benchmark context: +25`);
+                }
+
+                // Extra boost for "study" + "benchmark" combination
+                if (userLower.includes('study') && (articleTitle.includes('study') || articleSummary.includes('study'))) {
+                    contextBoost += 15;
+                    console.log(`  📊 Benchmark study combination: +15`);
+                }
+
+                // Extra boost for "pathways to growth" if user mentions both benchmark and study
+                if (userLower.includes('study') && articleTitle.includes('pathways to growth')) {
+                    contextBoost += 20;
+                    console.log(`  📊 Pathways to Growth study: +20`);
+                }
+            }
+
+            // If asking about specific products/tickers, prioritize product content
+            if ((userLower.includes('etf') || userLower.includes('fund') || tickerMatches.length > 0) &&
+                (articleTitle.includes('etf') || articleTitle.includes('fund') || articleTags.some(tag => tickerMatches.includes(tag)))) {
+                contextBoost += 20;
+                console.log(`  💼 Product context: +20`);
+            }
+
+            // If asking about practice/business topics, prioritize practice content
+            if ((userLower.includes('practice') || userLower.includes('business') || userLower.includes('advisor')) &&
+                (articleTitle.includes('practice') || articleTitle.includes('advisor') || articleSummary.includes('practice'))) {
+                contextBoost += 20;
+                console.log(`  📈 Practice context: +20`);
+            }
+
+            score += contextBoost;
+
+            // 6. KEYWORD DENSITY SCORING
+            const totalWords = userWords.length;
+            let densityScore = 0;
+
+            if (totalWords > 0) {
+                const matchingWords = userWords.filter(word =>
+                    articleTitle.includes(word) || articleSummary.includes(word)
+                );
+                const density = matchingWords.length / totalWords;
+                densityScore = Math.round(density * 10);
+            }
+
+            score += densityScore;
+            if (densityScore > 0) {
+                console.log(`  🔍 Keyword density: +${densityScore}`);
+            }
+
+            console.log(`  📊 Total score: ${score}`);
+            return score;
+        }
+
         // LLM-powered semantic matching against articles corpus
         async function parseWithLLM(text) {
             console.log('🤖 Parsing with LLM:', text);
@@ -903,11 +1081,21 @@
                 `${index + 1}. "${article.title}" - ${article.summary || ''} (Tags: ${(article.tags || []).join(', ')})`
             ).join('\n');
 
-            const prompt = `You are an intelligent content matching system. Analyze the user's request and determine:
+            const prompt = `You are an intelligent content matching system for financial advisors. Analyze the user's request and match the most relevant content based on their specific query intent.
 
-1. Which financial firms they're referring to (if any)
-2. Which stock tickers/symbols they mentioned (if any)
-3. Which articles from our corpus best match their request
+INTELLIGENT MATCHING APPROACH:
+- If the user asks about PRODUCTS/TICKERS/ETFs → prioritize product-specific content
+- If the user asks about PRACTICE MANAGEMENT/BENCHMARKS → prioritize practice management content
+- If the user asks about FIRMS → prioritize firm-specific content
+- Match based on QUERY INTENT, not predetermined hierarchies
+
+CONTENT CATEGORIES (all equal priority - choose based on user intent):
+- Product Specific: ETFs, funds, tickers, investment products, performance data, expense ratios
+- Practice Management: benchmarks, practice growth, productivity, client acquisition, business operations
+- Investment Strategy: allocation, portfolio construction, asset management, diversification
+- Client Experience: satisfaction, onboarding, communication, relationships, service
+- Technology: digital tools, automation, fintech solutions, platforms
+- Market Insights: trends, analysis, economic outlook, forecasts
 
 USER REQUEST: "${text}"
 
@@ -1065,51 +1253,12 @@ Return ONLY valid JSON:
                 }
             });
 
-            // Smart article matching based on keywords and content
+            // Enhanced article matching with practice management priority
+            console.log('🔍 Enhanced article matching with practice management priority');
             const matchedArticles = [];
-            const searchTerms = lowerText.split(/\s+/).filter(term => term.length > 3);
 
             state.articles.forEach(article => {
-                let score = 0;
-                const articleText = (
-                    (article.title || '') + ' ' +
-                    (article.summary || '') + ' ' +
-                    (article.tags || []).join(' ')
-                ).toLowerCase();
-
-                // Direct keyword matching
-                searchTerms.forEach(term => {
-                    if (articleText.includes(term)) {
-                        score += articleText.split(term).length - 1; // Count occurrences
-                    }
-                });
-
-                // Ticker matching (high weight)
-                tickers.forEach(ticker => {
-                    if (articleText.includes(ticker.toLowerCase()) ||
-                        (article.tags || []).some(tag => tag.toUpperCase() === ticker)) {
-                        score += 10;
-                    }
-                });
-
-                // Topic-based matching
-                const topicMatches = {
-                    'productivity': ['productivity', 'efficiency', 'growth', 'optimize'],
-                    'client': ['client', 'acquisition', 'onboarding', 'service'],
-                    'technology': ['technology', 'crm', 'digital', 'automation'],
-                    'practice': ['practice', 'management', 'advisor', 'team'],
-                    'etf': ['etf', 'fund', 'investment', 'portfolio'],
-                    'benchmark': ['benchmark', 'study', 'research', 'data']
-                };
-
-                Object.entries(topicMatches).forEach(([topic, keywords]) => {
-                    if (keywords.some(keyword => lowerText.includes(keyword))) {
-                        if (keywords.some(keyword => articleText.includes(keyword))) {
-                            score += 5;
-                        }
-                    }
-                });
-
+                const score = scoreArticleRelevance(article, text, firms, tickers);
                 if (score > 0) {
                     matchedArticles.push({ article, score });
                 }
