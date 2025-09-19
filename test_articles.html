@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Articles Loading</title>
+</head>
+<body>
+    <h1>Testing Articles.json Loading</h1>
+    <div id="output"></div>
+
+    <script>
+        async function test() {
+            const output = document.getElementById('output');
+
+            try {
+                const response = await fetch('articles.json');
+                const articles = await response.json();
+
+                output.innerHTML = '<h2>Articles Loaded Successfully!</h2>';
+                output.innerHTML += `<p>Total articles: ${articles.length}</p>`;
+
+                // Find CGMM article
+                const cgmmArticle = articles.find(a =>
+                    a.tags && a.tags.some(tag => tag.toUpperCase() === 'CGMM')
+                );
+
+                if (cgmmArticle) {
+                    output.innerHTML += '<h3>CGMM Article Found:</h3>';
+                    output.innerHTML += `<p>Title: ${cgmmArticle.title}</p>`;
+                    output.innerHTML += `<p>Tags: ${cgmmArticle.tags.join(', ')}</p>`;
+                } else {
+                    output.innerHTML += '<p style="color: red;">No CGMM article found!</p>';
+
+                    // Show all articles with their tags
+                    output.innerHTML += '<h3>All Articles:</h3>';
+                    articles.forEach(article => {
+                        output.innerHTML += `<div style="border: 1px solid #ccc; margin: 10px; padding: 10px;">
+                            <strong>${article.title}</strong><br>
+                            Tags: ${article.tags ? article.tags.join(', ') : 'No tags'}
+                        </div>`;
+                    });
+                }
+
+            } catch (error) {
+                output.innerHTML = `<p style="color: red;">Error loading articles: ${error}</p>`;
+            }
+        }
+
+        test();
+    </script>
+</body>
+</html>

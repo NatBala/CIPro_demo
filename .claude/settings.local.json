@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(start index.html)",
+      "WebFetch(domain:www.capitalgroup.com)",
+      "WebSearch",
+      "Bash(start login.html)",
+      "Bash(start C:Usersnbalasubramanian1Desktopexperimentstest_CIProprompt_console.html)",
+      "Bash(start prompt_console.html)",
+      "Bash(start dist/index.html)",
+      "Bash(start test_articles.html)",
+      "Bash(copy \"capital_group_logo.png\" \"dist/\")",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git remote add:*)",
+      "Bash(git push:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

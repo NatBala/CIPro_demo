@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Team Recommendations</title>
+    <style>
+        :root {
+            --cg-blue-900: #002d62;
+            --cg-blue-800: #003973;
+            --cg-blue-700: #004b88;
+            --cg-blue-600: #0b5ea8;
+            --cg-blue-500: #0f6cb8;
+            --cg-blue-400: #2d7dc5;
+            --cg-blue-300: #5b9bd5;
+            --cg-blue-200: #a4c8e1;
+            --cg-blue-100: #d6e9f5;
+            --cg-blue-50: #f0f7fc;
+            --neutral-50: #f8fafc;
+            --neutral-100: #f1f5f9;
+            --neutral-200: #e2e8f0;
+            --neutral-400: #94a3b8;
+            --neutral-600: #475569;
+            --white: #ffffff;
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, var(--cg-blue-600) 0%, var(--cg-blue-800) 100%);
+            min-height: 100vh;
+            color: var(--neutral-600);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .shell {
+            width: 100%;
+            max-width: 700px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            animation: fadeInUp 0.6s ease;
+            transition: all 0.5s ease;
+        }
+
+        .shell.two-columns {
+            max-width: 1400px;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            display: grid;
+            gap: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--cg-blue-600) 0%, var(--cg-blue-800) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .prompt-form {
+            display: grid;
+            gap: 16px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 20px;
+            border-radius: 16px;
+            border: 2px solid var(--neutral-200);
+            background: var(--white);
+            font-size: 16px;
+            resize: vertical;
+            color: var(--neutral-600);
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        textarea::placeholder {
+            color: var(--neutral-400);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--cg-blue-600);
+            box-shadow: 0 0 0 4px rgba(11, 94, 168, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .button-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        button {
+            padding: 14px 28px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, var(--cg-blue-600) 0%, var(--cg-blue-700) 100%);
+            color: var(--white);
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(11, 94, 168, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(11, 94, 168, 0.4);
+            background: linear-gradient(135deg, var(--cg-blue-700) 0%, var(--cg-blue-800) 100%);
+        }
+
+        button.secondary {
+            background: transparent;
+            color: var(--cg-blue-600);
+            border: 2px solid var(--neutral-200);
+            box-shadow: none;
+        }
+
+        button.secondary:hover {
+            background: rgba(11, 94, 168, 0.1);
+            border-color: var(--cg-blue-600);
+            transform: translateY(-2px);
+        }
+
+        .status {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: var(--success);
+            color: white;
+            font-weight: 600;
+            display: none;
+        }
+
+        .status.show {
+            display: inline-block;
+        }
+
+        .results {
+            display: grid;
+            gap: 24px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-block {
+            background: linear-gradient(135deg, rgba(11, 94, 168, 0.05) 0%, rgba(0, 45, 98, 0.05) 100%);
+            border-radius: 20px;
+            padding: 28px;
+            border: 1px solid rgba(11, 94, 168, 0.15);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .result-block:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(11, 94, 168, 0.1);
+        }
+
+        .result-block h2 {
+            margin-top: 0;
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--cg-blue-600) 0%, var(--cg-blue-800) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .tag {
+            background: rgba(11, 94, 168, 0.12);
+            color: var(--navy-900);
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .tag.firm {
+            background: rgba(16, 185, 129, 0.12);
+            color: #047857;
+        }
+
+        .tag.ticker {
+            background: rgba(168, 85, 247, 0.12);
+            color: #6b21a8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--neutral-100);
+        }
+
+        th {
+            background: rgba(11, 94, 168, 0.08);
+            font-size: 14px;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+
+        .article-list {
+            display: grid;
+            gap: 16px;
+        }
+
+        .article-item {
+            display: grid;
+            gap: 6px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--neutral-100);
+        }
+
+        .article-item a {
+            color: var(--navy-900);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .article-item a:hover {
+            color: var(--navy-600);
+        }
+
+        .empty-state {
+            color: var(--neutral-400);
+            font-style: italic;
+        }
+
+        .webpages-toggle {
+            margin-top: 20px;
+        }
+
+        .toggle-button {
+            background: none;
+            border: 1px solid var(--neutral-100);
+            color: var(--cg-blue-600);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .toggle-button:hover {
+            background: var(--cg-blue-50);
+            border-color: var(--cg-blue-600);
+        }
+
+        .toggle-button svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s;
+        }
+
+        .toggle-button.active svg {
+            transform: rotate(180deg);
+        }
+
+        .dashboard-links {
+            display: none;
+            gap: 12px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--neutral-100);
+        }
+
+        .dashboard-links.show {
+            display: flex;
+        }
+
+        .dashboard-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: var(--cg-blue-600);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .dashboard-links a:hover {
+            background: var(--cg-blue-700);
+        }
+
+        footer {
+            text-align: center;
+            font-size: 13px;
+            color: var(--neutral-400);
+        }
+
+        .example-prompts {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .example-prompts h3 {
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #0369a1;
+        }
+
+        .example-prompts ul {
+            margin: 0;
+            padding-left: 24px;
+            color: #0c4a6e;
+        }
+
+        .example-prompts li {
+            margin-bottom: 8px;
+        }
+
+        /* Recommendation Library Styles */
+        .library-button {
+            width: 100%;
+            background: linear-gradient(135deg, var(--cg-blue-600) 0%, var(--cg-blue-700) 100%);
+            color: white;
+            border: none;
+            padding: 18px 32px;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(11, 94, 168, 0.3);
+        }
+
+        .library-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(11, 94, 168, 0.4);
+            background: linear-gradient(135deg, var(--cg-blue-700) 0%, var(--cg-blue-800) 100%);
+        }
+
+        .library-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 45, 98, 0.8);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 32px;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #e3e8f0;
+            padding-bottom: 16px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: var(--cg-blue-900);
+            font-size: 28px;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: var(--neutral-400);
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .close-button:hover {
+            background: var(--neutral-50);
+            color: var(--cg-blue-900);
+        }
+
+        .recommendation-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .recommendation-item {
+            padding: 16px;
+            margin-bottom: 12px;
+            background: var(--neutral-50);
+            border-radius: 12px;
+            border-left: 4px solid var(--cg-blue-600);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .recommendation-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0, 45, 98, 0.1);
+        }
+
+        .recommendation-text {
+            font-size: 16px;
+            color: var(--cg-blue-900);
+            margin-bottom: 8px;
+        }
+
+        .recommendation-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: var(--neutral-600);
+        }
+
+        .recommendation-timestamp {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .recommendation-advisor {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .empty-library {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--neutral-600);
+        }
+
+        .empty-library svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .library-actions {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 2px solid #e3e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .clear-library-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .clear-library-btn:hover {
+            background: #dc2626;
+        }
+
+        .library-count {
+            color: var(--neutral-600);
+            font-size: 14px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 968px) {
+            .shell {
+                grid-template-columns: 1fr;
+                max-width: 600px;
+            }
+
+            .panel {
+                padding: 28px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .library-button {
+                font-size: 15px;
+                padding: 16px 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .panel {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .button-row {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <div class="panel">
+            <h1>Marketing Team Recommendations</h1>
+            <p>Enter product announcements or insights. The system will detect firms, tickers, and update advisor feeds in real-time.</p>
+
+            <!-- Recommendation Library Button -->
+            <button class="library-button" onclick="openLibrary()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 3v18M9 3l7-2v18l-7 2M9 3L2 5v14l7-2M16 1l6 2v14l-6 2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Recommendation Library
+            </button>
+
+
+            <form class="prompt-form" id="prompt-form">
+                <label for="prompt-input"><strong>Enter Recommendation</strong></label>
+                <textarea id="prompt-input" placeholder="Example: CGMM is now available at Edward Jones advisors."></textarea>
+                <div class="button-row">
+                    <button type="submit">Update CI Pro Feeds</button>
+                    <button type="button" class="secondary" onclick="clearFeeds()">Clear All Feeds</button>
+                    <span class="status" id="status">Feeds updated!</span>
+                </div>
+            </form>
+
+            <div class="webpages-toggle">
+                <button class="toggle-button" onclick="toggleWebpages()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                    Show Webpages
+                </button>
+                <div class="dashboard-links" id="dashboard-links">
+                    <a href="dist/index.html?user=nat" target="_blank">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="9" y1="3" x2="9" y2="21"></line>
+                            <line x1="3" y1="9" x2="21" y2="9"></line>
+                        </svg>
+                        Open Nat's Dashboard (LPL Financial)
+                    </a>
+                    <a href="dist/index.html?user=k" target="_blank">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="9" y1="3" x2="9" y2="21"></line>
+                            <line x1="3" y1="9" x2="21" y2="9"></line>
+                        </svg>
+                        Open K's Dashboard (Edward Jones)
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel" id="results-panel" style="display: none;">
+            <div class="results" id="results">
+                <!-- Results will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommendation Library Modal -->
+    <div id="library-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Recommendation Library</h2>
+                <button class="close-button" onclick="closeLibrary()">&times;</button>
+            </div>
+            <div id="library-content">
+                <!-- Content will be dynamically populated -->
+            </div>
+            <div class="library-actions">
+                <span class="library-count" id="library-count">0 recommendations</span>
+                <button class="clear-library-btn" onclick="clearLibrary()">Clear Library</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const state = {
+            advisors: [],
+            articles: []
+        };
+
+        // LLM Configuration
+        const LLM_CONFIG = {
+            // Using OpenAI-compatible API (can be OpenAI, Anthropic, or local LLM)
+            apiUrl: 'https://api.openai.com/v1/chat/completions',
+            apiKey: 'YOUR_API_KEY_HERE', // Replace with your actual API key
+            model: 'gpt-4o', // or 'gpt-4' for better accuracy
+
+            // Fallback to Claude API if preferred
+            // apiUrl: 'https://api.anthropic.com/v1/messages',
+            // apiKey: 'your-claude-api-key',
+            // model: 'claude-3-haiku-20240307'
+        };
+
+        // Known financial firms for validation
+        const KNOWN_FIRMS = [
+            'Edward Jones', 'LPL Financial', 'Raymond James', 'Morgan Stanley',
+            'Merrill Lynch', 'UBS', 'Wells Fargo', 'Ameriprise', 'Charles Schwab',
+            'Fidelity', 'Vanguard', 'TD Ameritrade', 'E*TRADE', 'Interactive Brokers'
+        ];
+
+        // Common tickers for validation
+        const KNOWN_TICKERS = [
+            'CGMM', 'CGIC', 'CGUI', 'CGIE', 'KKR', 'SPY', 'QQQ', 'AAPL',
+            'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'META', 'BRK.B'
+        ];
+
+        // Toggle Webpages function
+        function toggleWebpages() {
+            const button = document.querySelector('.toggle-button');
+            const links = document.getElementById('dashboard-links');
+
+            button.classList.toggle('active');
+            links.classList.toggle('show');
+
+            // Update button text
+            const buttonText = button.classList.contains('active') ? 'Hide Webpages' : 'Show Webpages';
+            button.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+                ${buttonText}
+            `;
+        }
+
+        // Recommendation Library Functions
+        function saveToLibrary(recommendation) {
+            const library = JSON.parse(localStorage.getItem('recommendationLibrary') || '[]');
+            const entry = {
+                text: recommendation,
+                timestamp: new Date().toISOString(),
+                id: Date.now()
+            };
+            library.unshift(entry); // Add to beginning
+
+            // Keep only last 50 recommendations
+            if (library.length > 50) {
+                library.pop();
+            }
+
+            localStorage.setItem('recommendationLibrary', JSON.stringify(library));
+        }
+
+        function openLibrary() {
+            const modal = document.getElementById('library-modal');
+            const libraryContent = document.getElementById('library-content');
+            const libraryCount = document.getElementById('library-count');
+            const library = JSON.parse(localStorage.getItem('recommendationLibrary') || '[]');
+
+            // Update count
+            libraryCount.textContent = `${library.length} recommendation${library.length !== 1 ? 's' : ''}`;
+
+            // Render library content
+            if (library.length === 0) {
+                libraryContent.innerHTML = `
+                    <div class="empty-library">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 3v18M9 3l7-2v18l-7 2M9 3L2 5v14l7-2M16 1l6 2v14l-6 2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <p>No recommendations yet</p>
+                        <p style="font-size: 14px; opacity: 0.7;">Start by entering a recommendation above</p>
+                    </div>
+                `;
+            } else {
+                const listHTML = library.map(item => {
+                    const date = new Date(item.timestamp);
+                    const formattedDate = date.toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                    });
+                    const formattedTime = date.toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+
+                    return `
+                        <li class="recommendation-item">
+                            <div class="recommendation-text">${item.text}</div>
+                            <div class="recommendation-meta">
+                                <span class="recommendation-timestamp">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                    ${formattedDate} at ${formattedTime}
+                                </span>
+                            </div>
+                        </li>
+                    `;
+                }).join('');
+
+                libraryContent.innerHTML = `<ul class="recommendation-list">${listHTML}</ul>`;
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeLibrary() {
+            const modal = document.getElementById('library-modal');
+            modal.classList.remove('active');
+        }
+
+        function clearLibrary() {
+            if (confirm('Are you sure you want to clear all recommendations from the library?')) {
+                localStorage.removeItem('recommendationLibrary');
+                openLibrary(); // Refresh the view
+            }
+        }
+
+        // Close modal on background click
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('library-modal');
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeLibrary();
+                }
+            });
+        });
+
+        async function bootstrap() {
+            try {
+                console.log('🚀 Bootstrap starting...');
+                const [advisorRes, articleRes] = await Promise.all([
+                    fetch('advisors.json'),
+                    fetch('articles_full_backup.json')
+                ]);
+
+                console.log('📄 Files fetched, parsing JSON...');
+                state.advisors = await advisorRes.json();
+                state.articles = await articleRes.json();
+
+                console.log('✅ Loaded articles:', state.articles.length);
+                console.log('📋 Sample article:', state.articles[0]);
+
+                // Check for CGMM article
+                const cgmmArticle = state.articles.find(a =>
+                    a.tags && a.tags.some(tag => tag.toUpperCase() === 'CGMM')
+                );
+                console.log('🎯 CGMM article found:', cgmmArticle ? cgmmArticle.title : 'NOT FOUND');
+
+                // Check for KKR article specifically
+                const kkrArticle = state.articles.find(a =>
+                    a.tags && a.tags.some(tag => tag.toUpperCase() === 'KKR')
+                );
+                console.log('🏦 KKR article found:', kkrArticle ? kkrArticle.title : 'NOT FOUND');
+
+                // Show all articles with KKR in title or tags
+                const allKKRArticles = state.articles.filter(a =>
+                    (a.title && a.title.toUpperCase().includes('KKR')) ||
+                    (a.tags && a.tags.some(tag => String(tag).toUpperCase().includes('KKR')))
+                );
+                console.log('🔍 All KKR-related articles:', allKKRArticles.length, allKKRArticles.map(a => a.title));
+
+            } catch (err) {
+                console.error('❌ Failed to load data:', err);
+                console.log('🔄 Using fallback data...');
+
+                // Use default data if files don't exist
+                state.advisors = [
+                    { id: 'nat', name: 'Nat', firm: 'LPL Financial', channel: 'Independent' },
+                    { id: 'k', name: 'Advisor K', firm: 'Edward Jones', channel: 'Wirehouse' }
+                ];
+
+                // Fallback with both CGMM and KKR articles
+                state.articles = [
+                    {
+                        "id": "cgmm-capital-group-u-s-small-and-mid-cap-etf",
+                        "title": "CGMM — Capital Group U.S. Small and Mid Cap ETF: Focused Growth in the SMID Space",
+                        "url": "https://www.capitalgroup.com/advisor/investments/exchange-traded-funds/details/cgmm",
+                        "summary": "CGMM is an actively managed equity ETF seeking long-term capital appreciation.",
+                        "tags": ["CGMM", "ETF", "SMID", "capital", "group"]
+                    },
+                    {
+                        "id": "capital-group-kkr-interval-funds",
+                        "title": "Capital Group + KKR Interval Funds: Public-Private+ Access to Broader Credit Opportunities",
+                        "url": "https://www.capitalgroup.com/advisor/investments/public-private-plus.html",
+                        "summary": "Capital Group and KKR introduced a suite of Public-Private+ interval funds designed to blend public credit with private credit.",
+                        "tags": ["KKR", "interval", "funds", "credit", "capital", "group"]
+                    }
+                ];
+                console.log('✅ Fallback data loaded with KKR article');
+            }
+        }
+
+        // LLM-powered semantic matching against articles corpus
+        async function parseWithLLM(text) {
+            console.log('🤖 Parsing with LLM:', text);
+
+            // Create article summaries for the LLM
+            const articleSummaries = state.articles.map((article, index) =>
+                `${index + 1}. "${article.title}" - ${article.summary || ''} (Tags: ${(article.tags || []).join(', ')})`
+            ).join('\n');
+
+            const prompt = `You are an intelligent content matching system. Analyze the user's request and determine:
+
+1. Which financial firms they're referring to (if any)
+2. Which stock tickers/symbols they mentioned (if any)
+3. Which articles from our corpus best match their request
+
+USER REQUEST: "${text}"
+
+AVAILABLE FIRMS: ${KNOWN_FIRMS.join(', ')}
+AVAILABLE TICKERS: ${KNOWN_TICKERS.join(', ')}
+
+FIRM SHORTFORMS TO RECOGNIZE:
+- EJ = Edward Jones
+- MS, MSWM = Morgan Stanley
+- RJ = Raymond James
+- LPL = LPL Financial
+- ML = Merrill Lynch
+- WF = Wells Fargo
+- UBS = UBS
+- CS = Charles Schwab
+
+AVAILABLE ARTICLES:
+${articleSummaries}
+
+INSTRUCTIONS:
+- Recognize common firm abbreviations (EJ, MS, RJ, etc.) and map to full firm names
+- If they mention product launches, ETFs, or specific tickers, find matching articles
+- If they mention advisory practices, productivity, or growth, match relevant practice management articles
+- If they mention specific firms, target those firms
+- Be flexible - match based on intent and semantic similarity
+- If no specific firm is mentioned, default to all firms
+
+Return ONLY valid JSON:
+{
+  "firms": ["exact firm names from the list above"],
+  "tickers": ["EXACT_TICKERS"],
+  "matchedArticles": [1, 3, 5],
+  "reasoning": "brief explanation of matches",
+  "confidence": 0.95
+}`;
+
+            try {
+                const response = await fetch(LLM_CONFIG.apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${LLM_CONFIG.apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: LLM_CONFIG.model,
+                        messages: [{ role: 'user', content: prompt }],
+                        max_tokens: 500,
+                        temperature: 0.1
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const content = data.choices[0].message.content;
+                    console.log('🤖 LLM response:', content);
+
+                    try {
+                        const parsed = JSON.parse(content);
+                        console.log('✅ LLM parsed:', parsed);
+
+                        // Convert article indices to actual articles
+                        const matchedArticles = (parsed.matchedArticles || []).map(index =>
+                            state.articles[index - 1]
+                        ).filter(Boolean);
+
+                        return {
+                            tickers: parsed.tickers || [],
+                            firms: parsed.firms || [],
+                            articles: matchedArticles,
+                            reasoning: parsed.reasoning || '',
+                            confidence: parsed.confidence || 0.5,
+                            rawText: text,
+                            method: 'LLM'
+                        };
+                    } catch (jsonError) {
+                        console.warn('❌ LLM returned invalid JSON, falling back to rule-based');
+                        return fallbackParsing(text);
+                    }
+                } else {
+                    console.warn('❌ LLM API failed, falling back to rule-based');
+                    return fallbackParsing(text);
+                }
+            } catch (error) {
+                console.warn('❌ LLM error, falling back to rule-based:', error);
+                return fallbackParsing(text);
+            }
+        }
+
+        // Fallback rule-based parsing with semantic article matching
+        function fallbackParsing(text) {
+            console.log('🔧 Using fallback rule-based parsing');
+
+            const lowerText = text.toLowerCase();
+            const upperText = text.toUpperCase();
+
+            // Detect firms with broader patterns including shortforms
+            const firms = [];
+
+            // Define shortform mappings
+            const shortforms = {
+                'ej': 'Edward Jones',
+                'edward jones': 'Edward Jones',
+                'ms': 'Morgan Stanley',
+                'mswm': 'Morgan Stanley',
+                'morgan stanley': 'Morgan Stanley',
+                'rj': 'Raymond James',
+                'raymond james': 'Raymond James',
+                'lpl': 'LPL Financial',
+                'lpl financial': 'LPL Financial',
+                'ml': 'Merrill Lynch',
+                'merrill lynch': 'Merrill Lynch',
+                'merrill': 'Merrill Lynch',
+                'wf': 'Wells Fargo',
+                'wells fargo': 'Wells Fargo',
+                'wells': 'Wells Fargo',
+                'ubs': 'UBS',
+                'cs': 'Charles Schwab',
+                'charles schwab': 'Charles Schwab',
+                'schwab': 'Charles Schwab'
+            };
+
+            // Check for shortforms first
+            Object.entries(shortforms).forEach(([shortform, fullName]) => {
+                const pattern = new RegExp(`\\b${shortform}\\b`, 'i');
+                if (pattern.test(text)) {
+                    firms.push(fullName);
+                }
+            });
+
+            // Then check for other firm patterns
+            KNOWN_FIRMS.forEach(firm => {
+                const firmLower = firm.toLowerCase();
+                const firmWords = firmLower.split(' ');
+
+                if (lowerText.includes(firmLower) ||
+                    firmWords.some(word => lowerText.includes(word) && word.length > 3)) {
+                    firms.push(firm);
+                }
+            });
+
+            // Remove duplicates and if no specific firm mentioned, target all firms
+            const uniqueFirms = [...new Set(firms)];
+            if (uniqueFirms.length === 0) {
+                uniqueFirms.push(...KNOWN_FIRMS);
+            }
+
+            // Detect tickers
+            const tickers = [];
+            const tickerPattern = /\b[A-Z]{2,5}\b/g;
+            const matches = upperText.match(tickerPattern) || [];
+
+            matches.forEach(match => {
+                if (KNOWN_TICKERS.includes(match)) {
+                    tickers.push(match);
+                }
+            });
+
+            // Smart article matching based on keywords and content
+            const matchedArticles = [];
+            const searchTerms = lowerText.split(/\s+/).filter(term => term.length > 3);
+
+            state.articles.forEach(article => {
+                let score = 0;
+                const articleText = (
+                    (article.title || '') + ' ' +
+                    (article.summary || '') + ' ' +
+                    (article.tags || []).join(' ')
+                ).toLowerCase();
+
+                // Direct keyword matching
+                searchTerms.forEach(term => {
+                    if (articleText.includes(term)) {
+                        score += articleText.split(term).length - 1; // Count occurrences
+                    }
+                });
+
+                // Ticker matching (high weight)
+                tickers.forEach(ticker => {
+                    if (articleText.includes(ticker.toLowerCase()) ||
+                        (article.tags || []).some(tag => tag.toUpperCase() === ticker)) {
+                        score += 10;
+                    }
+                });
+
+                // Topic-based matching
+                const topicMatches = {
+                    'productivity': ['productivity', 'efficiency', 'growth', 'optimize'],
+                    'client': ['client', 'acquisition', 'onboarding', 'service'],
+                    'technology': ['technology', 'crm', 'digital', 'automation'],
+                    'practice': ['practice', 'management', 'advisor', 'team'],
+                    'etf': ['etf', 'fund', 'investment', 'portfolio'],
+                    'benchmark': ['benchmark', 'study', 'research', 'data']
+                };
+
+                Object.entries(topicMatches).forEach(([topic, keywords]) => {
+                    if (keywords.some(keyword => lowerText.includes(keyword))) {
+                        if (keywords.some(keyword => articleText.includes(keyword))) {
+                            score += 5;
+                        }
+                    }
+                });
+
+                if (score > 0) {
+                    matchedArticles.push({ article, score });
+                }
+            });
+
+            // Sort by score and take top matches
+            const sortedArticles = matchedArticles
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 6)
+                .map(item => item.article);
+
+            return {
+                tickers: [...new Set(tickers)],
+                firms: uniqueFirms,
+                articles: sortedArticles,
+                reasoning: `Matched ${sortedArticles.length} articles based on keyword similarity`,
+                confidence: sortedArticles.length > 0 ? 0.7 : 0.3,
+                rawText: text,
+                method: 'Rule-based'
+            };
+        }
+
+        // Main parsing function - tries LLM first, falls back to rules
+        async function parsePrompt(text) {
+            if (!text || text.trim().length === 0) {
+                return { tickers: [], firms: [], articles: [], confidence: 0, rawText: text, method: 'Empty' };
+            }
+
+            // Try LLM parsing first if API key is configured
+            if (LLM_CONFIG.apiKey && LLM_CONFIG.apiKey !== 'your-api-key-here') {
+                return await parseWithLLM(text);
+            } else {
+                console.log('💡 No LLM API key configured, using enhanced rule-based parsing');
+                return fallbackParsing(text);
+            }
+        }
+
+        function findMatchingAdvisors(firms) {
+            if (!firms.length) return state.advisors;
+            return state.advisors.filter(advisor =>
+                firms.some(firm => advisor.firm.toLowerCase() === firm.toLowerCase())
+            );
+        }
+
+        // This function is now replaced by the LLM/rule-based parsing
+        // Articles are matched directly in parsePrompt()
+        function findMatchingArticles(parsed) {
+            // Return the articles already matched by the parsing system
+            return parsed.articles || [];
+        }
+
+        function updateAdvisorFeeds(parsed, advisors, articles) {
+            // Store the parsed data and matching articles for each advisor
+            advisors.forEach(advisor => {
+                const feedKey = `feed_${advisor.id}`;
+                const currentFeed = JSON.parse(localStorage.getItem(feedKey) || '[]');
+
+                // Add new articles to the advisor's feed
+                const newArticles = articles.map(article => ({
+                    ...article,
+                    addedAt: new Date().toISOString(),
+                    prompt: parsed.rawText
+                }));
+
+                // Merge with existing feed (avoid duplicates)
+                const existingIds = currentFeed.map(a => a.id);
+                const uniqueNewArticles = newArticles.filter(a => !existingIds.includes(a.id));
+                const updatedFeed = [...uniqueNewArticles, ...currentFeed].slice(0, 20);
+
+                localStorage.setItem(feedKey, JSON.stringify(updatedFeed));
+            });
+
+            // Also store the last update timestamp
+            localStorage.setItem('feed_last_update', new Date().toISOString());
+        }
+
+        function renderResults(parsed, advisors, articles) {
+            const container = document.getElementById('results');
+            const resultsPanel = document.getElementById('results-panel');
+            const shell = document.querySelector('.shell');
+
+            // Show results panel and switch to two-column layout
+            resultsPanel.style.display = 'block';
+            shell.classList.add('two-columns');
+
+            container.innerHTML = '';
+
+            // Prompt Summary
+            const summaryBlock = document.createElement('div');
+            summaryBlock.className = 'result-block';
+            summaryBlock.innerHTML = `
+                <h2>Detected Entities</h2>
+                <div class="tags">
+                    ${parsed.tickers.map(t => `<span class="tag ticker">Ticker: ${t}</span>`).join('') || '<span class="tag">No tickers detected</span>'}
+                    ${parsed.firms.map(f => `<span class="tag firm">Firm: ${f}</span>`).join('') || '<span class="tag">All firms targeted</span>'}
+                </div>
+            `;
+            container.appendChild(summaryBlock);
+
+            // Advisors Impacted
+            const advisorBlock = document.createElement('div');
+            advisorBlock.className = 'result-block';
+            advisorBlock.innerHTML = '<h2>Advisors Receiving Updates</h2>';
+            if (!advisors.length) {
+                advisorBlock.innerHTML += '<div class="empty-state">No advisors match the detected firms.</div>';
+            } else {
+                const table = document.createElement('table');
+                table.innerHTML = `
+                    <thead>
+                        <tr><th>Name</th><th>Firm</th><th>Channel</th><th>Status</th></tr>
+                    </thead>
+                    <tbody>
+                        ${advisors.map(advisor => `
+                            <tr>
+                                <td>${advisor.name}</td>
+                                <td>${advisor.firm}</td>
+                                <td>${advisor.channel}</td>
+                                <td style="color: var(--success); font-weight: 600;">Feed Updated</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                `;
+                advisorBlock.appendChild(table);
+            }
+            container.appendChild(advisorBlock);
+
+            // Recommended Articles
+            const articleBlock = document.createElement('div');
+            articleBlock.className = 'result-block';
+            articleBlock.innerHTML = '<h2>Articles Added to Feeds</h2>';
+            if (!articles.length) {
+                articleBlock.innerHTML += '<div class="empty-state">No matching articles found. Articles would be selected based on tickers and content relevance.</div>';
+            } else {
+                const list = document.createElement('div');
+                list.className = 'article-list';
+                list.innerHTML = articles.map(article => `
+                    <div class="article-item">
+                        <a href="${article.url}" target="_blank" rel="noopener noreferrer">${article.title}</a>
+                        <small style="color: var(--neutral-400);">
+                            ${article.published_date || 'Recent'} •
+                            ${article.tags ? article.tags.join(', ') : 'General'}
+                        </small>
+                    </div>
+                `).join('');
+                articleBlock.appendChild(list);
+            }
+            container.appendChild(articleBlock);
+        }
+
+        function showStatus() {
+            const status = document.getElementById('status');
+            status.classList.add('show');
+            setTimeout(() => {
+                status.classList.remove('show');
+            }, 3000);
+        }
+
+        function clearFeeds() {
+            // Clear all advisor feeds
+            state.advisors.forEach(advisor => {
+                localStorage.removeItem(`feed_${advisor.id}`);
+            });
+            localStorage.removeItem('feed_last_update');
+
+            // Show confirmation
+            const status = document.getElementById('status');
+            status.textContent = 'All feeds cleared!';
+            status.style.background = '#ef4444';
+            showStatus();
+
+            // Reset status text after animation
+            setTimeout(() => {
+                status.textContent = 'Feeds updated!';
+                status.style.background = 'var(--success)';
+            }, 3500);
+        }
+
+        document.getElementById('prompt-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const text = document.getElementById('prompt-input').value.trim();
+
+            if (!text) {
+                renderResults({ tickers: [], firms: [], articles: [], rawText: '' }, [], []);
+                return;
+            }
+
+            // Save to recommendation library
+            saveToLibrary(text);
+
+            // Show loading state
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '🤖 Analyzing...';
+            submitBtn.disabled = true;
+
+            try {
+                // Parse with LLM or fallback system
+                const parsed = await parsePrompt(text);
+                console.log('📊 Parsed result:', parsed);
+
+                const advisors = findMatchingAdvisors(parsed.firms);
+                const articles = findMatchingArticles(parsed);
+
+                // Update localStorage for real-time dashboard updates
+                updateAdvisorFeeds(parsed, advisors, articles);
+
+                // Render results
+                renderResults(parsed, advisors, articles);
+
+                // Show success status
+                showStatus();
+
+            } catch (error) {
+                console.error('❌ Error processing prompt:', error);
+                renderResults({
+                    tickers: [],
+                    firms: [],
+                    articles: [],
+                    rawText: text,
+                    error: error.message
+                }, [], []);
+            } finally {
+                // Restore button state
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Initialize on load
+        bootstrap();
+    </script>
+</body>
+</html>

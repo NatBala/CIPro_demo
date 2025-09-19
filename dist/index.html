@@ -1,0 +1,2468 @@
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Capital Group | Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        :root {
+
+            --navy-900: #002d62;
+
+            --navy-800: #003973;
+
+            --navy-700: #004b88;
+
+            --navy-600: #0b5ea8;
+
+            --navy-500: #0f6cb8;
+
+            --navy-200: #c8def5;
+
+            --blue-50: #f4f8ff;
+
+            --blue-100: #e9f2ff;
+
+            --neutral-25: #f6f8fb;
+
+            --neutral-50: #f0f3f8;
+
+            --neutral-100: #e3e8f0;
+
+            --neutral-300: #c5cfdd;
+
+            --neutral-500: #7d8899;
+
+            --neutral-700: #4a566a;
+
+            --neutral-900: #1f2a3d;
+
+            --accent-magenta: #b02374;
+
+            --accent-cyan: #86d9d6;
+
+            --white: #ffffff;
+
+            --shadow-panel: 0 24px 54px rgba(9, 38, 74, 0.12);
+
+            --shadow-card: 0 18px 42px rgba(12, 46, 92, 0.14);
+
+            --radius-panel: 22px;
+
+            --radius-card: 18px;
+
+        }
+
+
+
+        * {
+
+            box-sizing: border-box;
+
+        }
+
+
+
+        body {
+
+            margin: 0;
+
+            font-family: "Source Sans Pro", "Segoe UI", Tahoma, sans-serif;
+
+            color: var(--neutral-900);
+
+            background: var(--neutral-25);
+
+        }
+
+
+
+        a {
+
+            color: inherit;
+
+            text-decoration: none;
+
+        }
+
+
+
+        button {
+
+            font: inherit;
+
+        }
+
+
+
+        svg {
+
+            display: block;
+
+        }
+
+
+
+        .hidden {
+
+            display: none !important;
+
+        }
+
+
+
+        .auth-wrapper {
+
+            min-height: 100vh;
+
+            background: radial-gradient(circle at top, rgba(13, 102, 176, 0.08), rgba(4, 56, 111, 0.22));
+
+            display: grid;
+
+            place-items: center;
+
+            padding: 48px 16px;
+
+        }
+
+
+
+        .login-card {
+
+            width: min(440px, 100%);
+
+            background: var(--white);
+
+            border-radius: 22px;
+
+            box-shadow: 0 32px 60px rgba(9, 38, 74, 0.18);
+
+            padding: 44px 38px;
+
+            display: grid;
+
+            gap: 26px;
+
+        }
+
+
+
+        .login-header {
+
+            display: grid;
+
+            gap: 12px;
+
+            text-align: center;
+
+        }
+
+
+
+        .login-header svg {
+
+            width: 54px;
+
+            height: 54px;
+
+            margin: 0 auto;
+
+        }
+
+
+
+        .login-header h2 {
+
+            margin: 0;
+
+            font-size: 26px;
+
+            color: var(--navy-800);
+
+            font-weight: 700;
+
+        }
+
+
+
+        .login-header p {
+
+            margin: 0;
+
+            color: var(--neutral-600);
+
+            font-size: 15px;
+
+        }
+
+
+
+        .login-form {
+
+            display: grid;
+
+            gap: 18px;
+
+        }
+
+
+
+        .login-label {
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            letter-spacing: 0.4px;
+
+            text-transform: uppercase;
+
+            color: var(--neutral-600);
+
+        }
+
+
+
+        .login-input {
+
+            width: 100%;
+
+            padding: 14px 16px;
+
+            border-radius: 12px;
+
+            border: 1px solid var(--neutral-100);
+
+            font-size: 16px;
+
+            background: var(--neutral-50);
+
+            transition: border 0.2s ease, box-shadow 0.2s ease;
+
+        }
+
+
+
+        .login-input:focus {
+
+            outline: none;
+
+            border-color: var(--navy-600);
+
+            box-shadow: 0 0 0 3px rgba(15, 108, 184, 0.12);
+
+        }
+
+
+
+        .login-submit {
+
+            margin-top: 6px;
+
+            padding: 14px 18px;
+
+            border-radius: 14px;
+
+            border: none;
+
+            background: var(--navy-600);
+
+            color: var(--white);
+
+            font-weight: 700;
+
+            letter-spacing: 0.5px;
+
+            cursor: pointer;
+
+            box-shadow: inset 0 -2px 0 rgba(255, 255, 255, 0.2);
+
+        }
+
+
+
+        .login-submit:hover {
+
+            background: var(--navy-700);
+
+        }
+
+
+
+        .login-error {
+
+            min-height: 20px;
+
+            color: #c53b3b;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            text-align: center;
+
+        }
+
+
+
+        .login-meta {
+
+            font-size: 13px;
+
+            color: var(--neutral-600);
+
+            text-align: center;
+
+        }
+
+
+
+        @media (max-width: 540px) {
+
+            .login-card {
+
+                padding: 36px 26px;
+
+            }
+
+        }
+
+
+
+        .page {
+
+            min-height: 100vh;
+
+        }
+
+
+
+        .topbar {
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 20;
+
+            background: var(--white);
+
+            border-bottom: 1px solid rgba(9, 46, 92, 0.12);
+
+        }
+
+
+
+        .topbar-inner {
+
+            max-width: 1440px;
+
+            margin: 0 auto;
+
+            padding: 18px 36px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 28px;
+
+        }
+
+
+
+        .brand {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            min-width: 215px;
+
+        }
+
+
+
+        .brand-mark svg {
+
+            width: 46px;
+
+            height: 46px;
+
+        }
+
+
+
+        .brand-text {
+
+            display: flex;
+
+            flex-direction: column;
+
+            font-size: 12px;
+
+            letter-spacing: 1.8px;
+
+            font-weight: 700;
+
+            color: var(--navy-900);
+
+            text-transform: uppercase;
+
+            line-height: 1.15;
+
+        }
+
+
+
+        .primary-nav {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 30px;
+
+            flex: 1;
+
+        }
+
+
+
+        .nav-link {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            font-weight: 600;
+
+            font-size: 16px;
+
+            color: var(--navy-900);
+
+            padding: 6px 0;
+
+            white-space: nowrap;
+
+        }
+
+
+
+        .nav-link svg {
+
+            width: 11px;
+
+            height: 11px;
+
+        }
+
+
+
+        .topbar-actions {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 20px;
+
+        }
+
+
+
+        .region-pill {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 14px;
+
+            color: var(--neutral-600);
+
+            white-space: nowrap;
+
+        }
+
+
+
+        .region-pill svg {
+
+            width: 20px;
+
+            height: 20px;
+
+        }
+
+
+
+        .link-chevron {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            font-weight: 600;
+
+            color: var(--navy-600);
+
+        }
+
+
+
+        .logout-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 10px 26px;
+
+            border-radius: 999px;
+
+            border: none;
+
+            font-weight: 600;
+
+            color: var(--white);
+
+            background: var(--navy-900);
+
+            box-shadow: inset 0 -2px 0 rgba(255, 255, 255, 0.18);
+
+            white-space: nowrap;
+
+            cursor: pointer;
+
+        }
+
+
+
+        .user-chip {
+
+            font-weight: 600;
+
+            color: var(--neutral-700);
+
+        }
+
+
+
+        .cart-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 7px 18px;
+
+            border-radius: 999px;
+
+            border: 1px solid rgba(9, 46, 92, 0.25);
+
+            font-weight: 600;
+
+            color: var(--navy-700);
+
+            background: var(--white);
+
+        }
+
+
+
+        .cart-btn svg {
+
+            width: 22px;
+
+            height: 22px;
+
+        }
+
+
+
+        .icon-btn {
+
+            border: none;
+
+            background: none;
+
+            padding: 0;
+
+            color: var(--navy-700);
+
+            display: inline-flex;
+
+            cursor: pointer;
+
+        }
+
+
+
+        .icon-btn svg {
+
+            width: 24px;
+
+            height: 24px;
+
+        }
+
+
+
+        .layout {
+
+            max-width: 1440px;
+
+            margin: 0 auto;
+
+            display: grid;
+
+            grid-template-columns: 232px 1fr;
+
+            gap: 32px;
+
+            padding: 36px 36px 80px;
+
+        }
+
+
+
+        .sidebar {
+
+            background: linear-gradient(180deg, #022d5d 0%, #04386f 100%);
+
+            border-radius: 0 22px 22px 0;
+
+            padding: 38px 26px;
+
+            color: rgba(255, 255, 255, 0.88);
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 30px;
+
+            box-shadow: 0 24px 40px rgba(4, 28, 58, 0.28);
+
+        }
+
+
+
+        .sidebar-group {
+
+            display: grid;
+
+            gap: 8px;
+
+        }
+
+
+
+        .sidebar-link {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            padding: 12px 16px;
+
+            border-radius: 14px;
+
+            color: inherit;
+
+            font-weight: 600;
+
+            transition: background 0.2s ease, color 0.2s ease;
+
+        }
+
+
+
+        .sidebar-link svg {
+
+            width: 20px;
+
+            height: 20px;
+
+            opacity: 0.85;
+
+        }
+
+
+
+        .sidebar-link.active,
+
+        .sidebar-link:hover {
+
+            background: rgba(255, 255, 255, 0.18);
+
+            color: var(--white);
+
+        }
+
+
+
+        .sidebar-divider {
+
+            height: 1px;
+
+            background: rgba(255, 255, 255, 0.26);
+
+            margin: 18px 0 10px;
+
+        }
+
+
+
+        .content {
+
+            display: grid;
+
+            gap: 28px;
+
+        }
+
+
+
+        .surface {
+
+            background: var(--white);
+
+            border-radius: var(--radius-panel);
+
+            padding: 32px;
+
+            box-shadow: var(--shadow-panel);
+
+        }
+
+
+
+        .welcome-row {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 24px;
+
+        }
+
+
+
+        .welcome-row h1 {
+
+            margin: 0;
+
+            font-size: 34px;
+
+            font-weight: 700;
+
+            color: var(--navy-800);
+
+        }
+
+
+
+        .alert-link {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-weight: 600;
+
+            color: var(--navy-600);
+
+            white-space: nowrap;
+
+        }
+
+
+
+        .alert-link svg {
+
+            width: 20px;
+
+            height: 20px;
+
+        }
+
+
+
+        .section-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 16px;
+
+            margin-bottom: 24px;
+
+        }
+
+
+
+        .section-header h2 {
+
+            margin: 0;
+
+            font-size: 26px;
+
+            font-weight: 700;
+
+            color: var(--navy-800);
+
+        }
+
+
+
+        .section-header .link-chevron svg {
+
+            width: 16px;
+
+            height: 16px;
+
+        }
+
+
+
+        .feed-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+
+            gap: 32px;
+
+        }
+
+
+
+        .feed-card {
+
+            background: var(--white);
+
+            border-radius: var(--radius-card);
+
+            box-shadow: var(--shadow-card);
+
+            overflow: hidden;
+
+            display: block;
+
+        }
+
+
+
+
+
+        .feed-card-link {
+
+            display: flex;
+
+            flex-direction: column;
+
+            height: 100%;
+
+            color: inherit;
+
+            text-decoration: none;
+
+        }
+
+
+
+        .feed-card-link:hover .feed-card-title {
+
+            color: var(--navy-600);
+
+        }
+
+
+
+        .feed-card-link:focus-visible {
+
+            outline: 3px solid rgba(15, 108, 184, 0.3);
+
+            outline-offset: 4px;
+
+        }
+
+
+
+        .feed-card img {
+
+            width: 100%;
+
+            height: 240px;
+
+            object-fit: cover;
+
+            display: block;
+
+        }
+
+
+
+        .feed-card-body {
+
+            padding: 32px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            flex: 1;
+
+            justify-content: space-between;
+
+            gap: 18px;
+
+        }
+
+
+
+        .feed-card-content {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
+
+        }
+
+
+
+        .feed-card-eyebrow {
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.6px;
+
+            color: var(--neutral-500);
+
+            text-transform: uppercase;
+
+        }
+
+
+
+        .feed-card-title {
+
+            margin: 0;
+
+            font-size: 22px;
+
+            font-weight: 600;
+
+            color: var(--neutral-900);
+
+            line-height: 1.4;
+
+        }
+
+
+
+        .text-link {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-weight: 600;
+
+            color: var(--navy-600);
+
+        }
+
+
+
+        .text-link svg {
+
+            width: 16px;
+
+            height: 16px;
+
+        }
+
+
+
+        .course-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            gap: 22px;
+
+        }
+
+
+
+        .course-card {
+
+            position: relative;
+
+            border-radius: var(--radius-card);
+
+            padding: 30px;
+
+            background: linear-gradient(160deg, var(--blue-100) 0%, var(--blue-50) 100%);
+
+            box-shadow: 0 20px 44px rgba(10, 43, 84, 0.16);
+
+            display: grid;
+
+            gap: 18px;
+
+        }
+
+
+
+        .course-badge {
+
+            position: absolute;
+
+            top: 22px;
+
+            right: 26px;
+
+            background: var(--accent-magenta);
+
+            color: var(--white);
+
+            padding: 6px 14px;
+
+            border-radius: 999px;
+
+            font-size: 11px;
+
+            letter-spacing: 1.3px;
+
+            font-weight: 700;
+
+        }
+
+
+
+        .course-card h3 {
+
+            margin: 0;
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+            color: var(--navy-900);
+
+            line-height: 1.35;
+
+        }
+
+
+
+        .course-card p {
+
+            margin: 0;
+
+            font-size: 16px;
+
+            color: var(--neutral-600);
+
+            line-height: 1.55;
+
+        }
+
+
+
+        .primary-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 12px 28px;
+
+            border-radius: 12px;
+
+            background: var(--navy-800);
+
+            color: var(--white);
+
+            font-weight: 700;
+
+            letter-spacing: 0.5px;
+
+            text-transform: uppercase;
+
+            font-size: 13px;
+
+            box-shadow: inset 0 -2px 0 rgba(255, 255, 255, 0.22);
+
+        }
+
+
+
+        .split-grid {
+
+            display: grid;
+
+            grid-template-columns: 2fr 1fr;
+
+            gap: 24px;
+
+        }
+
+
+
+        .hero-card {
+
+            position: relative;
+
+            border-radius: var(--radius-panel);
+
+        padding: 42px 38px;
+
+            color: var(--white);
+
+            background: radial-gradient(circle at 20% 25%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 50%),
+
+                linear-gradient(145deg, #04366c, #0a5aa8 70%, #1176c6 100%);
+
+            overflow: hidden;
+
+            box-shadow: var(--shadow-card);
+
+        }
+
+
+
+        .hero-card::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 340px;
+
+            height: 340px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.12);
+
+            top: -140px;
+
+            right: -110px;
+
+        }
+
+
+
+        .hero-card span {
+
+            font-size: 12px;
+
+            letter-spacing: 0.7px;
+
+            text-transform: uppercase;
+
+            font-weight: 700;
+
+            opacity: 0.85;
+
+        }
+
+
+
+        .hero-card h3 {
+
+            margin: 14px 0 18px;
+
+            font-size: 28px;
+
+            font-weight: 700;
+
+        }
+
+
+
+        .hero-card p {
+
+            margin: 0 0 26px;
+
+            max-width: 540px;
+
+            font-size: 16px;
+
+            line-height: 1.6;
+
+        }
+
+
+
+        .hero-actions {
+
+            display: inline-flex;
+
+            gap: 14px;
+
+            flex-wrap: wrap;
+
+            position: relative;
+
+            z-index: 1;
+
+        }
+
+
+
+        .outline-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 12px 26px;
+
+            border-radius: 12px;
+
+            border: 2px solid rgba(255, 255, 255, 0.92);
+
+            color: var(--white);
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.5px;
+
+            font-size: 13px;
+
+        }
+
+
+
+        .side-stack {
+
+            display: grid;
+
+            gap: 20px;
+
+        }
+
+
+
+        .info-card {
+
+            background: var(--white);
+
+            border-radius: var(--radius-panel);
+
+            padding: 28px;
+
+            box-shadow: var(--shadow-panel);
+
+            display: grid;
+
+            gap: 18px;
+
+        }
+
+
+
+        .info-card h4 {
+
+            margin: 0;
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+            color: var(--navy-900);
+
+        }
+
+
+
+        .info-card .label {
+
+            font-size: 12px;
+
+            letter-spacing: 0.6px;
+
+            text-transform: uppercase;
+
+            font-weight: 700;
+
+            color: var(--neutral-500);
+
+        }
+
+
+
+        .info-divider {
+
+            height: 1px;
+
+            background: var(--neutral-100);
+
+            margin: 4px 0;
+
+        }
+
+
+
+        .info-card a {
+
+            font-weight: 600;
+
+            color: var(--navy-600);
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+        }
+
+
+
+        .info-card a svg {
+
+            width: 14px;
+
+            height: 14px;
+
+        }
+
+
+
+        @media (max-width: 1180px) {
+
+            .layout {
+
+                grid-template-columns: 210px 1fr;
+
+            }
+
+
+
+            .feed-grid {
+
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            }
+
+
+
+            .split-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+
+        @media (max-width: 960px) {
+
+            .topbar-inner {
+
+                flex-wrap: wrap;
+
+                gap: 18px;
+
+            }
+
+
+
+            .primary-nav {
+
+                order: 3;
+
+                width: 100%;
+
+                flex-wrap: wrap;
+
+            }
+
+
+
+            .topbar-actions {
+
+                order: 2;
+
+                flex-wrap: wrap;
+
+            }
+
+
+
+            .layout {
+
+                grid-template-columns: 1fr;
+
+                padding: 28px;
+
+            }
+
+
+
+            .sidebar {
+
+                flex-direction: row;
+
+                border-radius: 22px;
+
+                overflow-x: auto;
+
+            }
+
+        }
+
+
+
+        @media (max-width: 900px) {
+
+            .feed-grid {
+
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            }
+
+        }
+
+
+
+        @media (max-width: 600px) {
+
+            .feed-grid,
+
+            .course-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+
+            .welcome-row {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="auth-wrapper" id="auth-wrapper">
+
+        <div class="login-card">
+
+            <div class="login-header">
+
+                <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+                    <rect x="4" y="4" width="28" height="28" rx="4" fill="#0d66b0"></rect>
+
+                    <rect x="20" y="20" width="28" height="28" rx="4" fill="#0691d2"></rect>
+
+                    <rect x="36" y="36" width="24" height="24" rx="4" fill="#52c0f0"></rect>
+
+                </svg>
+
+                <h2>Capital Group Advisor Access</h2>
+
+                <p>Sign in as Nat or K to view your personalized experience.</p>
+
+            </div>
+
+            <form class="login-form" id="login-form">
+
+                <div>
+
+                    <label class="login-label" for="username">Username</label>
+
+                    <input class="login-input" type="text" id="username" name="username" autocomplete="username" placeholder="Enter nat or k" required>
+
+                </div>
+
+                <div>
+
+                    <label class="login-label" for="password">Password</label>
+
+                    <input class="login-input" type="password" id="password" name="password" autocomplete="current-password" placeholder="Password" required>
+
+                </div>
+
+                <button class="login-submit" type="submit">Log In</button>
+
+                <div class="login-error" id="login-error"></div>
+
+            </form>
+
+            <div class="login-meta">
+
+                Use <strong>nat / capital123</strong> or <strong>k / advisor456</strong> to continue.
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="page hidden" id="dashboard">
+
+        <header class="topbar">
+
+            <div class="topbar-inner">
+
+                <a class="brand" href="#">
+
+                    <img src="capital_group_logo.png" alt="Capital Group | American Funds" style="height: 40px;">
+
+                </a>
+
+                <nav class="primary-nav">
+
+                    <a class="nav-link" href="#">
+
+                        <span>For You</span>
+
+                        <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                    </a>
+
+                    <a class="nav-link" href="#">
+
+                        <span>Investments</span>
+
+                        <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                    </a>
+
+                    <a class="nav-link" href="#">
+
+                        <span>Insights</span>
+
+                        <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                    </a>
+
+                    <a class="nav-link" href="#">
+
+                        <span>Tools &amp; Resources</span>
+
+                        <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                    </a>
+
+                    <a class="nav-link" href="#">
+
+                        <span>About Us</span>
+
+                        <svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                    </a>
+
+                </nav>
+
+                <div class="topbar-actions">
+
+                    <span class="region-pill">
+
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+                            <circle cx="12" cy="12" r="10" stroke="#0f6cb8" stroke-width="1.4" fill="none"></circle>
+
+                            <path d="M4 9.5h16M4 14.5h16" stroke="#0f6cb8" stroke-width="1.1" stroke-linecap="round"></path>
+
+                            <path d="M12 2c2.8 3 3.8 7.4 0 20" stroke="#0f6cb8" stroke-width="1.1" stroke-linecap="round"></path>
+
+                        </svg>
+
+                        <span>US</span>
+
+                        <span>&bull;</span>
+
+                        <span>Financial Professional</span>
+
+                    </span>
+
+                    <a class="link-chevron" href="#">
+
+                        Client Accounts
+
+                        <svg viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                    </a>
+
+                    <button class="logout-btn" type="button">Log Out</button>
+
+                    <span class="user-chip" id="user-chip">Nat Bala</span>
+
+                    <span class="cart-btn">
+
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+                            <path d="M6 6h15l-2.1 8.5a2 2 0 01-1.94 1.6H9.4a2 2 0 01-1.96-1.64L5.2 3.5H2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+
+                            <circle cx="10" cy="20" r="1.6" fill="currentColor"></circle>
+
+                            <circle cx="18" cy="20" r="1.6" fill="currentColor"></circle>
+
+                        </svg>
+
+                        <span>(0)</span>
+
+                    </span>
+
+                    <button class="icon-btn" type="button" aria-label="Search">
+
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+                            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" fill="none"></circle>
+
+                            <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+
+                        </svg>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <main class="layout">
+
+            <aside class="sidebar">
+
+                <div class="sidebar-group">
+
+                    <a class="sidebar-link active" href="#">
+
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11l8-6 8 6v9H4z" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linejoin="round"></path><path d="M10 20v-6h4v6" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"></path></svg>
+
+                        <span>For You</span>
+
+                    </a>
+
+                    <a class="sidebar-link" href="#">
+
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3l2.4 7H21l-5.4 4 2.2 7L12 18l-5.6 3 2.2-7L3 10h6.6z" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round"></path></svg>
+
+                        <span>Insights</span>
+
+                    </a>
+
+                    <a class="sidebar-link" href="#">
+
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 4a6 6 0 016 6c0 2.6-1.8 4.8-4.3 5.7L13 20H7l1.3-4.3C5.8 14.8 4 12.6 4 10a6 6 0 016-6z" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                        <span>My Growth Areas</span>
+
+                    </a>
+
+                    <a class="sidebar-link" href="#">
+
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="3" width="16" height="12" rx="2" fill="none" stroke="#ffffff" stroke-width="1.6"></rect><path d="M8 21l4-3 4 3" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                        <span>Courses</span>
+
+                    </a>
+
+                    <a class="sidebar-link" href="#">
+
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 9h12M6 15h12" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"></path><circle cx="6" cy="9" r="1.6" fill="#ffffff"></circle><circle cx="6" cy="15" r="1.6" fill="#ffffff"></circle></svg>
+
+                        <span>Webinars &amp; Events</span>
+
+                    </a>
+
+                </div>
+
+                <div class="sidebar-divider"></div>
+
+                <div class="sidebar-group">
+
+                    <a class="sidebar-link" href="#">
+
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="#ffffff" stroke-width="1.6"></rect><path d="M7 3v4M17 3v4" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"></path></svg>
+
+                        <span>Client Accounts</span>
+
+                    </a>
+
+                    <a class="sidebar-link" href="#">
+
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16v12H4z" fill="none" stroke="#ffffff" stroke-width="1.6"></path><path d="M9 6v12" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"></path><path d="M4 11h16" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"></path></svg>
+
+                        <span>Account Resource Center</span>
+
+                    </a>
+
+                    <a class="sidebar-link" href="#">
+
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5 4h14l-2 12H7z" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linejoin="round"></path><path d="M9 20h6" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"></path></svg>
+
+                        <span>Forms &amp; Literature</span>
+
+                    </a>
+
+                    <a class="sidebar-link" href="#">
+
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" fill="none" stroke="#ffffff" stroke-width="1.6"></circle><path d="M12 6v12" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"></path><path d="M6 12h12" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"></path></svg>
+
+                        <span>Announcements</span>
+
+                    </a>
+
+                </div>
+
+            </aside>
+
+
+
+            <div class="content">
+
+                <section class="surface">
+
+                    <div class="welcome-row">
+
+                        <h1 id="welcome-heading">Welcome Nat!</h1>
+
+
+                    </div>
+
+                </section>
+
+
+
+                <section class="surface">
+
+                    <div class="section-header">
+
+                        <h2>Your Feed</h2>
+
+                    </div>
+
+                    <div class="feed-grid">
+
+                                                <article class="feed-card">
+
+                            <a class="feed-card-link" href="https://www.capitalgroup.com/advisor/pro/pathways-to-growth/your-growth-plan" target="_blank" rel="noopener noreferrer">
+
+                                <img src="images/image1.png" alt="Capital Group Unveils Advisor Benchmark Service to Enhance Practice Management Offerings">
+
+                                <div class="feed-card-body">
+
+                                    <div class="feed-card-content">
+
+                                        <span class="feed-card-eyebrow">CAPITAL GROUP UNVEILS</span>
+
+                                        <h3 class="feed-card-title">Capital Group Unveils Advisor Benchmark Service to Enhance Practice Management Offerings</h3>
+
+                                    </div>
+
+                                    <span class="text-link">
+
+                                        <span>Read now</span>
+
+                                        <svg viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path d="M1 5h12m0 0l-3-3m3 3l-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                                    </span>
+
+                                </div>
+
+                            </a>
+
+                        </article>
+                        <article class="feed-card">
+
+                            <a class="feed-card-link" href="https://www.capitalgroup.com/advisor/practicelab/webinars/traits-of-top-advisors.html" target="_blank" rel="noopener noreferrer">
+
+                                <img src="images/image2.png" alt="Traits of Top Advisors in 2024">
+
+                                <div class="feed-card-body">
+
+                                    <div class="feed-card-content">
+
+                                        <span class="feed-card-eyebrow">TRAITS OF TOP</span>
+
+                                        <h3 class="feed-card-title">Traits of Top Advisors in 2024</h3>
+
+                                    </div>
+
+                                    <span class="text-link">
+
+                                        <span>Read now</span>
+
+                                        <svg viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path d="M1 5h12m0 0l-3-3m3 3l-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                                    </span>
+
+                                </div>
+
+                            </a>
+
+                        </article>
+                        <article class="feed-card">
+
+                            <a class="feed-card-link" href="https://www.capitalgroup.com/advisor/practicelab/articles/how-to-improve-productivity.html" target="_blank" rel="noopener noreferrer">
+
+                                <img src="images/image3.png" alt="Advisor Productivity: A Key to Unlock Business Growth">
+
+                                <div class="feed-card-body">
+
+                                    <div class="feed-card-content">
+
+                                        <span class="feed-card-eyebrow">ADVISOR PRODUCTIVITY</span>
+
+                                        <h3 class="feed-card-title">Advisor Productivity: A Key to Unlock Business Growth</h3>
+
+                                    </div>
+
+                                    <span class="text-link">
+
+                                        <span>Read now</span>
+
+                                        <svg viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path d="M1 5h12m0 0l-3-3m3 3l-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                                    </span>
+
+                                </div>
+
+                            </a>
+
+                        </article>
+                        <article class="feed-card">
+
+                            <a class="feed-card-link" href="https://www.capitalgroup.com/advisor/practicelab/articles/client-acquisition-strategies-for-financial-advisors.html" target="_blank" rel="noopener noreferrer">
+
+                                <img src="images/image4.png" alt="3 Client Acquisition Strategies from an Advisor and Wilderness Survival Expert">
+
+                                <div class="feed-card-body">
+
+                                    <div class="feed-card-content">
+
+                                        <span class="feed-card-eyebrow">3 CLIENT ACQUISITION</span>
+
+                                        <h3 class="feed-card-title">3 Client Acquisition Strategies from an Advisor and Wilderness Survival Expert</h3>
+
+                                    </div>
+
+                                    <span class="text-link">
+
+                                        <span>Read now</span>
+
+                                        <svg viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path d="M1 5h12m0 0l-3-3m3 3l-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                                    </span>
+
+                                </div>
+
+                            </a>
+
+                        </article>
+                        <article class="feed-card">
+
+                            <a class="feed-card-link" href="https://www.capitalgroup.com/advisor/pro/pathways-to-growth.html" target="_blank" rel="noopener noreferrer">
+
+                                <img src="images/image5.png" alt="Pathways to Growth: Capital Group's 2024 Advisor Benchmark Study">
+
+                                <div class="feed-card-body">
+
+                                    <div class="feed-card-content">
+
+                                        <span class="feed-card-eyebrow">PATHWAYS TO GROWTH</span>
+
+                                        <h3 class="feed-card-title">Pathways to Growth: Capital Group&#x27;s 2024 Advisor Benchmark Study</h3>
+
+                                    </div>
+
+                                    <span class="text-link">
+
+                                        <span>Read now</span>
+
+                                        <svg viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path d="M1 5h12m0 0l-3-3m3 3l-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                                    </span>
+
+                                </div>
+
+                            </a>
+
+                        </article>
+                        <article class="feed-card">
+
+                            <a class="feed-card-link" href="https://www.capitalgroup.com/advisor/ca/en/practicelab.html" target="_blank" rel="noopener noreferrer">
+
+                                <img src="images/image6.png" alt="PracticeLab: Your Digital Destination for Practice Management">
+
+                                <div class="feed-card-body">
+
+                                    <div class="feed-card-content">
+
+                                        <span class="feed-card-eyebrow">PRACTICELAB</span>
+
+                                        <h3 class="feed-card-title">PracticeLab: Your Digital Destination for Practice Management</h3>
+
+                                    </div>
+
+                                    <span class="text-link">
+
+                                        <span>Read now</span>
+
+                                        <svg viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path d="M1 5h12m0 0l-3-3m3 3l-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                                    </span>
+
+                                </div>
+
+                            </a>
+
+                        </article>
+                        <article class="feed-card">
+
+                            <a class="feed-card-link" href="https://www.capitalgroup.com/ria/insights/articles/make-client-onboarding-repeatable-and-referral-generating.html" target="_blank" rel="noopener noreferrer">
+
+                                <img src="images/image7.png" alt="The Power of Standard Operating Procedures in Advisory Practices">
+
+                                <div class="feed-card-body">
+
+                                    <div class="feed-card-content">
+
+                                        <span class="feed-card-eyebrow">THE POWER OF</span>
+
+                                        <h3 class="feed-card-title">The Power of Standard Operating Procedures in Advisory Practices</h3>
+
+                                    </div>
+
+                                    <span class="text-link">
+
+                                        <span>Read now</span>
+
+                                        <svg viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path d="M1 5h12m0 0l-3-3m3 3l-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                                    </span>
+
+                                </div>
+
+                            </a>
+
+                        </article>
+                        <article class="feed-card">
+
+                            <a class="feed-card-link" href="https://www.capitalgroup.com/advisor/insights/categories/practice-management.html" target="_blank" rel="noopener noreferrer">
+
+                                <img src="images/image8.png" alt="Technology Adoption: The Differentiator for High-Growth Practices">
+
+                                <div class="feed-card-body">
+
+                                    <div class="feed-card-content">
+
+                                        <span class="feed-card-eyebrow">TECHNOLOGY ADOPTION</span>
+
+                                        <h3 class="feed-card-title">Technology Adoption: The Differentiator for High-Growth Practices</h3>
+
+                                    </div>
+
+                                    <span class="text-link">
+
+                                        <span>Read now</span>
+
+                                        <svg viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path d="M1 5h12m0 0l-3-3m3 3l-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                                    </span>
+
+                                </div>
+
+                            </a>
+
+                        </article>
+
+                    </div>
+
+                </section>
+
+
+
+                <section class="surface">
+
+                    <div class="section-header">
+
+                        <h2>Courses</h2>
+
+                        <a class="link-chevron" href="#">
+
+                            View All
+
+                            <svg viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path d="M1 5h12m0 0l-3-3m3 3l-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                        </a>
+
+                    </div>
+
+                    <div class="course-grid">
+
+                        <article class="course-card">
+
+                            <span class="course-badge">NEW</span>
+
+                            <h3>Build and lead a high-performing advisory practice</h3>
+
+                            <p>Gain the knowledge and strategies you need to help grow, scale and create lasting value in your business.</p>
+
+                            <a class="primary-btn" href="#">Start Course</a>
+
+                        </article>
+
+                        <article class="course-card">
+
+                            <span class="course-badge">NEW</span>
+
+                            <h3>Introduction to private credit and public-private solutions</h3>
+
+                            <p>Explore the opportunities and challenges of private credit investments and how Public-Private+ Solutions can open the door to new markets for your investors.</p>
+
+                            <a class="primary-btn" href="#">Start Course</a>
+
+                        </article>
+
+                    </div>
+
+                </section>
+
+
+
+                <section class="surface">
+
+                    <div class="split-grid">
+
+                        <div class="hero-card">
+
+                            <span>Practice Growth</span>
+
+                            <h3>Assess your skills to grow your business</h3>
+
+                            <p>Identify the skills needed to drive growth in your practice based on our benchmark survey of more than 3,740 advisors and access resources to help you take action.</p>
+
+                            <div class="hero-actions">
+
+                                <a class="primary-btn" href="#">Start Here</a>
+
+                                <a class="outline-btn" href="#">Learn More</a>
+
+                            </div>
+
+                        </div>
+
+                        <div class="side-stack">
+
+                            <section class="info-card">
+
+                                <h4>Your Capital Team</h4>
+
+                                <div>
+
+                                    <span class="label">Advisor Marketing</span><br>
+
+                                    <a href="tel:8004219900">(800) 421-9900</a>
+
+                                </div>
+
+                                <div class="info-divider"></div>
+
+                                <a href="#">
+
+                                    <span>More contacts</span>
+
+                                    <svg viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path d="M1 5h12m0 0l-3-3m3 3l-3 3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                                </a>
+
+                            </section>
+
+                            <section class="info-card">
+
+                                <h4>Find opportunities</h4>
+
+                                <p>Plan client conversations around market-moving topics with ready-to-go resources.</p>
+
+                                <a href="#">
+
+                                    <span>Explore now</span>
+
+                                    <svg viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path d="M1 5h12m0 0l-3-3m3 3l-3 3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+                                </a>
+
+                            </section>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script>
+
+        (function() {
+
+            const credentials = {
+
+                nat: { password: "capital123", displayName: "Nat", chip: "Nat Bala", advisorId: "nat", firm: "LPL Financial" },
+
+                k: { password: "advisor456", displayName: "K", chip: "K", advisorId: "k", firm: "Edward Jones" }
+
+            };
+
+            let currentUser = null;
+
+            // Check URL parameters for auto-login
+            const urlParams = new URLSearchParams(window.location.search);
+            const userParam = urlParams.get('user');
+
+            if (userParam && credentials[userParam]) {
+                // Auto-login based on URL parameter
+                currentUser = credentials[userParam];
+                console.log('Auto-login for user:', userParam);
+            } else {
+                // Check for existing session in localStorage
+                const savedSession = localStorage.getItem('currentUser');
+                if (savedSession) {
+                    try {
+                        const sessionData = JSON.parse(savedSession);
+                        // Map session data to expected format
+                        currentUser = {
+                            displayName: sessionData.name || sessionData.username,
+                            chip: sessionData.fullName || sessionData.name,
+                            advisorId: sessionData.username === 'kpmnab' ? 'nat' : 'k',
+                            firm: sessionData.username === 'kpmnab' ? 'LPL Financial' : 'Edward Jones'
+                        };
+                    } catch (e) {
+                        console.error('Invalid session data:', e);
+                    }
+                }
+            }
+
+            const loginForm = document.getElementById("login-form");
+
+            const usernameInput = document.getElementById("username");
+
+            const passwordInput = document.getElementById("password");
+
+            const errorBox = document.getElementById("login-error");
+
+            const authWrapper = document.getElementById("auth-wrapper");
+
+            const dashboard = document.getElementById("dashboard");
+
+            const welcomeHeading = document.getElementById("welcome-heading");
+
+            const userChip = document.getElementById("user-chip");
+
+
+
+            function loadPersonalizedFeed() {
+                if (!currentUser) return;
+
+                const feedKey = `feed_${currentUser.advisorId}`;
+                let personalizedFeed = JSON.parse(localStorage.getItem(feedKey) || '[]');
+
+                // Fix any old reuters URLs in cached data
+                let dataChanged = false;
+                personalizedFeed = personalizedFeed.map(article => {
+                    if (article.url && (article.url.includes('reuters.com') || article.url.includes('alternative-investments/kkr-partnership'))) {
+                        dataChanged = true;
+                        return {
+                            ...article,
+                            url: 'https://www.capitalgroup.com/advisor/investments/public-private-plus.html'
+                        };
+                    }
+                    return article;
+                });
+
+                // Save the cleaned data back if we made changes
+                if (dataChanged) {
+                    localStorage.setItem(feedKey, JSON.stringify(personalizedFeed));
+                    console.log('Fixed old reuters URLs in cached feed data');
+                }
+
+                const feedGrid = document.querySelector('.feed-grid');
+                if (!feedGrid) return;
+
+                console.log(`Loading feed for ${currentUser.displayName} (${currentUser.firm}):`, personalizedFeed.length, 'personalized articles');
+
+                // Fixed grid position to image mapping - each position always uses same image
+                const gridPositionImages = [
+                    'images/image1.png', // Grid position 1 (top-left)
+                    'images/image2.png', // Grid position 2 (top-second)
+                    'images/image3.png', // Grid position 3 (top-third)
+                    'images/image4.png', // Grid position 4 (top-right)
+                    'images/image5.png', // Grid position 5 (bottom-left)
+                    'images/image6.png', // Grid position 6 (bottom-second)
+                    'images/image7.png', // Grid position 7 (bottom-third)
+                    'images/image8.png'  // Grid position 8 (bottom-right)
+                ];
+
+                // If there's personalized content, show it
+                if (personalizedFeed.length > 0) {
+                    // Store original articles if not already stored
+                    if (!window.originalArticles) {
+                        const existingArticles = feedGrid.querySelectorAll('.feed-card');
+                        window.originalArticles = Array.from(existingArticles).map(el => el.cloneNode(true));
+                        console.log(`Stored ${window.originalArticles.length} original articles for ${currentUser.displayName}`);
+                    }
+
+                    // Clear grid
+                    feedGrid.innerHTML = '';
+
+                    let currentGridPosition = 0; // Track which grid position we're filling
+
+                    // Add personalized articles first (up to 4)
+                    const personalizedToAdd = Math.min(personalizedFeed.length, 4);
+                    personalizedFeed.slice(0, personalizedToAdd).forEach((article, index) => {
+                        const feedCard = document.createElement('article');
+                        feedCard.className = 'feed-card';
+
+                        // Use image based on current grid position
+                        const imageSrc = gridPositionImages[currentGridPosition];
+                        currentGridPosition++;
+
+                        feedCard.innerHTML = `
+                            <a class="feed-card-link" href="${article.url}" target="_blank" rel="noopener noreferrer">
+                                <img src="${imageSrc}"
+                                     alt="${article.title}"
+                                     onerror="this.onerror=null; this.src='images/image1.png';">
+                                <div class="feed-card-body">
+                                    <div class="feed-card-content">
+                                        <span class="feed-card-eyebrow" style="color: #10b981;">🆕 PERSONALIZED</span>
+                                        <h3 class="feed-card-title">${article.title}</h3>
+                                    </div>
+                                    <span class="text-link">
+                                        <span>Read now</span>
+                                        <svg viewBox="0 0 16 10" xmlns="http://www.w3.org/2000/svg"><path d="M1 5h12m0 0l-3-3m3 3l-3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                    </span>
+                                </div>
+                            </a>
+                        `;
+                        feedGrid.appendChild(feedCard);
+                    });
+
+                    // Add remaining original articles to reach 8 total
+                    const remainingSlots = 8 - personalizedToAdd;
+                    if (window.originalArticles && remainingSlots > 0) {
+                        console.log(`Adding ${remainingSlots} original articles to reach 8 total`);
+                        window.originalArticles.slice(0, remainingSlots).forEach(article => {
+                            const articleClone = article.cloneNode(true);
+
+                            // Update the image to match the grid position
+                            const img = articleClone.querySelector('img');
+                            if (img) {
+                                img.src = gridPositionImages[currentGridPosition];
+                                currentGridPosition++;
+                            }
+
+                            feedGrid.appendChild(articleClone);
+                        });
+                    }
+
+                    console.log(`Feed grid now has ${feedGrid.children.length} total items (including banner if present)`);
+                } else if (window.originalArticles) {
+                    // Restore original articles if no personalized content
+                    feedGrid.innerHTML = '';
+
+                    // Use position-based images for original articles too
+                    let gridPosition = 0;
+                    window.originalArticles.forEach(article => {
+                        const articleClone = article.cloneNode(true);
+
+                        // Update the image to match the grid position
+                        const img = articleClone.querySelector('img');
+                        if (img && gridPosition < gridPositionImages.length) {
+                            img.src = gridPositionImages[gridPosition];
+                            gridPosition++;
+                        }
+
+                        feedGrid.appendChild(articleClone);
+                    });
+                }
+            }
+
+
+
+            if (!loginForm) {
+
+                return;
+
+            }
+
+
+
+            loginForm.addEventListener("submit", function(event) {
+
+                event.preventDefault();
+
+                const username = usernameInput.value.trim().toLowerCase();
+
+                const password = passwordInput.value;
+
+                const record = credentials[username];
+
+
+
+                if (record && record.password === password) {
+
+                    currentUser = record;
+
+                    // Save session to localStorage for persistence
+                    const userData = {
+                        username: username,
+                        name: record.displayName,
+                        fullName: record.chip,
+                        role: 'Financial Professional',
+                        loginTime: new Date().toISOString()
+                    };
+                    localStorage.setItem('currentUser', JSON.stringify(userData));
+
+                    welcomeHeading.textContent = `Welcome ${record.displayName}!`;
+
+                    userChip.textContent = record.chip;
+
+                    authWrapper.classList.add("hidden");
+
+                    dashboard.classList.remove("hidden");
+
+                    errorBox.textContent = "";
+
+                    loginForm.reset();
+
+                    // Load personalized feed
+                    setTimeout(loadPersonalizedFeed, 100);
+
+                } else {
+
+                    errorBox.textContent = "Invalid username or password.";
+
+                }
+
+            });
+
+            // Auto-refresh feed when localStorage changes
+            window.addEventListener('storage', function(e) {
+                if (e.key && e.key.startsWith('feed_')) {
+                    loadPersonalizedFeed();
+                }
+            });
+
+            // Refresh feed on page visibility change (when switching tabs)
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    loadPersonalizedFeed();
+                }
+            });
+
+            // Logout functionality
+            const logoutBtn = document.querySelector('.logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function() {
+                    // Clear session from localStorage
+                    localStorage.removeItem('currentUser');
+                    // Reload page to show login screen
+                    window.location.reload();
+                });
+            }
+
+            // Auto-login if session exists or URL parameter
+            if (currentUser) {
+                welcomeHeading.textContent = `Welcome ${currentUser.displayName}!`;
+                userChip.textContent = currentUser.chip;
+                authWrapper.classList.add("hidden");
+                dashboard.classList.remove("hidden");
+
+                // Load personalized feed
+                loadPersonalizedFeed();
+
+                // Set up aggressive periodic feed refresh (every 2 seconds)
+                setInterval(loadPersonalizedFeed, 2000);
+
+            }
+
+        })();
+
+    </script>
+
+</body>
+
+</html>
+

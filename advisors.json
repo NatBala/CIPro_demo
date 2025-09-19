@@ -1,0 +1,16 @@
+﻿[
+  {
+    "id": "nat",
+    "name": "Nat Bala",
+    "firm": "LPL",
+    "channel": "RIA",
+    "segments": ["practice-growth", "investment-strategy"]
+  },
+  {
+    "id": "k",
+    "name": "Advisor K",
+    "firm": "Edward Jones",
+    "channel": "Broker-Dealer",
+    "segments": ["practice-growth", "product-awareness"]
+  }
+]
